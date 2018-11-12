@@ -68,5 +68,32 @@ class Auth
 		return($err);
 	}
 
-	public function delete($login, $password) {}
+	public function delete($login, $password) {
+		$ent=self::viewAll();
+		$del=false;
+		$id=0;
+		foreach ($ent as $value) {
+			$id++;
+			if($value["login"]==$login){
+				if(trim($value["password"])==$password){
+					self::del($id);
+					$del=true;
+				}
+			}
+		}
+		return($del);
+	}
+	public function del($id){
+		if ($id != "") {
+			$id--;
+			$file=file("../base.txt");
+
+			for($i=0;$i<sizeof($file);$i++)
+				if($i==$id) unset($file[$i]);
+
+			$fp=fopen("../base.txt","w");
+			fputs($fp,implode("",$file));
+			fclose($fp);
+		}
+	}
 }
