@@ -29,13 +29,11 @@ class TestAuth extends UnitTestCase {
 		foreach ($pairs as $pair) {
 			$auth->add($pair["login"],$pair["password"]);
 		}
-		$entries = $auth->viewAll();
-		//print_r($entries);
+		$entries = $auth->viewAll();		
 		foreach ($entries as $entrie) {
 				$this->assertFalse((strlen($entrie["login"])>10));//	Неудача, если $login = = true
 				$this->assertPattern("/\w{4,10}/" , $entrie["login"]);	//Неудача, если регулярное выражение $p не соответствует $login
 				$this->assertNoPattern("/\d{4,10}/" , $entrie["login"]);	//Неудача, если регулярное выражение $p соответствует $login//неудача если логин только числа
-
 				$this->assertFalse((strlen($entrie["password"])>10));//	Неудача, если $password = = true
 				$this->assertPattern("/[a-zA-Z0-9]{6,10}/" , $entrie["password"]);
 			}

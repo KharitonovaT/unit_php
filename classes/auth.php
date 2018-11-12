@@ -1,13 +1,11 @@
 <?
 class Auth
 {
-	// public function viewAll() {}
 	private static $_entries = array(
 		array ('login' => 'Kirk1','password' => 'password'),
 		array ('login' => 'Tedy2','password' => 'password'));
 
 	public function add( $login, $password ) {
-		// $fd = fopen("../unit/base.txt", 'w') or die("не удалось создать файл");
 		$ent=self::viewAll();
 		$exist=false;
 		foreach ($ent as $key => $value) {
@@ -24,16 +22,12 @@ class Auth
 					}
 				}
 			}
-		}
-		// fwrite($fd, $str);
-		// file_put_contents("../unit/base.txt", $str, FILE_APPEND);
-		
+		}		
 		file_put_contents("../base.txt", $str, FILE_APPEND);
 
 	}
 
 	public function viewAll() {
-		// return self::$_entries; // Возвращаем взе записи из таблицы
 		$names=file('../base.txt');
 		$_entries=array();
 		foreach($names as $name)
@@ -48,14 +42,11 @@ class Auth
 
 	public function check($login, $password) {
 		$ent=self::viewAll();
-		// $check=false;
 		$err="";
 		foreach ($ent as $value) {
 			if($value["login"]==$login){
 				if(trim($value["password"])==$password){
 					$err="Ок";
-					// print_r("Пароль совпал");
-					// $check=true;
 				}
 				else{
 					$err="Неверный пароль";
