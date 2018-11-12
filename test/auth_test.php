@@ -24,6 +24,7 @@ class TestAuth extends UnitTestCase {
 			array ('login' => 'mylogin1','password' => '   '),//log-ok pas-no
 			array ('login' => 'mylogin1','password' => 'абвгА123'),//log-ok pas-no
 			array ('login' => 'new_login','password' => 'Password1'),//log-ok pas-ok
+			array ('login' => 'newlogin','password' => 'Password1'),//log-ok pas-ok
 		);
 		foreach ($pairs as $pair) {
 			$auth->add($pair["login"],$pair["password"]);
@@ -41,10 +42,8 @@ class TestAuth extends UnitTestCase {
 		}
 
 		function testAuthCheck()
-		{
-		}
+		{}
 
 		function testAuthDelete()
-		{
-		}
+		{}
 	}
