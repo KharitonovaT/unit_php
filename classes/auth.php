@@ -46,7 +46,27 @@ class Auth
 	}
 
 
-	public function check($login, $password) {}
+	public function check($login, $password) {
+		$ent=self::viewAll();
+		// $check=false;
+		$err="";
+		foreach ($ent as $value) {
+			if($value["login"]==$login){
+				if(trim($value["password"])==$password){
+					$err="Ок";
+					// print_r("Пароль совпал");
+					// $check=true;
+				}
+				else{
+					$err="Неверный пароль";
+				}
+			}
+		}
+		if($err==""){
+			$err="Неверный логин";
+		}
+		return($err);
+	}
 
 	public function delete($login, $password) {}
 }
