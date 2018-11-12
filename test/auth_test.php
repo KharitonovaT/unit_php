@@ -100,5 +100,35 @@ class TestAuth extends UnitTestCase {
 		}
 
 		function testAuthDelete()
-		{}
+		{
+			$auth = new Auth();
+				//проверка работы метода
+				$pairs= array(
+					array ('login' => 'MyLogin3','password' => 'Password2'), //Delete false, неверный пароль (пароль от другого логина)
+					array ('login' => 'MyLogin1','password' => 'Pas123'), //Delete false, неверный пароль (такого пароля в базе нет вообще)
+					array ('login' => 'MyLogin22','password' => 'Password2'),//Delete false, логина такого нет
+				);
+				foreach ($pairs as $value) {
+					$rez_del=$auth->delete($value['login'],$value['password']);
+					$this->assertFalse($rez_del);//Неудача если $rez_del==true
+				}
+				$pairs2= array(
+					array ('login' => 'MyLogin3','password' => 'Password3'),//Delete true
+					array ('login' => 'MyLogin4','password' => 'Password4'),//Delete true
+					array ('login' => 'MyLogin5','password' => 'Password5'),//Delete true
+				);
+				foreach ($pairs2 as $value) {
+					$rez_del=$auth->delete($value['login'],$value['password']);
+					$this->assertTrue($rez_del);//Неудача если $rez_del==false
+				}
+				//проверка реально ли удалены значения
+				foreach ($pairs2 as $value) {
+					$real_del=false;
+					$responce=$auth->check($value['login'],$value['password']);
+					if($responce!='Ок'){
+						$real_del=true;
+					}
+					$this->assertTrue($real_del);//Неудача если $real_del==false
+				}
+		}
 	}
