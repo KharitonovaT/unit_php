@@ -42,7 +42,62 @@ class TestAuth extends UnitTestCase {
 		}
 
 		function testAuthCheck()
-		{}
+		{
+			//проверка существования пары логин:пароль в файле (прочитать из файла и сравнить)
+				//проеверка логина на корректность 1)такой есть 2)латиница+цифры 3)4-20знаков
+				//проверка пароля на корректность 1)длина[6-10] 2)латиница + верхний_регистр + нижний_регистр + цифры 3)недопустимые символы
+				$auth = new Auth();
+				//заполням базу корректными значениями логина и пароля
+				$pairs= array(
+					array ('login' => 'MyLogin1','password' => 'Password1'), //log-ok pas-ok
+					array ('login' => 'MyLogin2','password' => 'Password2'),//log-ok pas-ok
+					array ('login' => 'MyLogin3','password' => 'Password3'),//log-ok pas-ok
+					array ('login' => 'MyLogin4','password' => 'Password4'),//log-ok pas-ok
+					array ('login' => 'MyLogin5','password' => 'Password5'),//log-ok pas-ok
+				);
+				foreach ($pairs as $pair) {
+					$auth->add($pair["login"],$pair["password"]);
+				}
+				// $entries = $auth->viewAll();
+
+				//получаем массив пар под которыми будем производить авторизцию
+				$check_pairs= array(
+					array ('login' => 'MyLogin3','password' => 'Password2'), //Auth false, неверный пароль (пароль от другого логина)
+					array ('login' => 'MyLogin1','password' => 'Pas123'), //Auth false, неверный пароль (такого пароля в базе нет вообще)
+					array ('login' => 'MyLogin22','password' => 'Password2'),//Auth false, логина такого нет
+				);
+
+				foreach ($check_pairs as $value) {
+					$rez_check=true;
+					$responce=$auth->check($value['login'],$value['password']);
+					if($responce=='Неверный логин'){
+						$rez_check=false;
+					}
+					if($responce=='Неверный пароль'){
+						$rez_check=false;
+					}
+					if($responce=='Ок'){
+						$rez_check=true;
+					}
+					$this->assertFalse($rez_check);//Неудача если $rez_check==true
+				}
+
+				//получаем массив пар под которыми будем производить авторизцию
+				$check_pairs2= array(
+					array ('login' => 'MyLogin3','password' => 'Password3'),//Auth true
+					array ('login' => 'MyLogin4','password' => 'Password4'),//Auth true
+					array ('login' => 'MyLogin5','password' => 'Password5'),//Auth true
+				);
+
+				foreach ($check_pairs2 as $value) {
+					$rez_check=false;
+					$responce=$auth->check($value['login'],$value['password']);
+					if($responce=='Ок'){
+						$rez_check=true;
+					}
+					$this->assertTrue($rez_check);//Неудача если $rez_check==false
+				}
+		}
 
 		function testAuthDelete()
 		{}
