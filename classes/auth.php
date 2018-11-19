@@ -6,6 +6,7 @@ class Auth
 		array ('login' => 'Tedy2','password' => 'password'));
 
 	public function add( $login, $password ) {
+		
 		$ent=self::viewAll();
 		$exist=false;
 		foreach ($ent as $key => $value) {
@@ -19,10 +20,11 @@ class Auth
 					if(preg_match("/(?=[-_a-zA-Z0-9]*?[A-Z])(?=[-_a-zA-Z0-9]*?[a-z])(?=[-_a-zA-Z0-9]*?[0-9])[-_a-zA-Z0-9]{6,10}/", $password)){
 						self::$_entries[] = array('login' => preg_replace('/\s/', '', $login), 'password' => preg_replace('/\s/', '', $password) );
 						$str = preg_replace('/\s/', '', $login)."#".preg_replace('/\s/', '', $password)."\n";
+						// print_r($str."<br>");
 					}
 				}
 			}
-		}		
+		}	
 		file_put_contents("../base.txt", $str, FILE_APPEND);
 
 	}
