@@ -47,7 +47,8 @@ class Auth
 		$err="";
 		foreach ($ent as $value) {
 			if($value["login"]==$login){
-				if(trim($value["password"])==$password){
+				// if(trim($value["password"])==$password){
+				if(trim($value["password"])==md5($password)){
 					$err="Ок";
 				}
 				else{

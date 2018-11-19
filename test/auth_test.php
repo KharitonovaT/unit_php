@@ -41,7 +41,7 @@ class TestAuth extends UnitTestCase {
 			}
 		}
 
-		/*function testAuthCheck()
+		function testAuthCheck()
 		{
 			//проверка существования пары логин:пароль в файле (прочитать из файла и сравнить)
 				//проеверка логина на корректность 1)такой есть 2)латиница+цифры 3)4-20знаков
@@ -98,7 +98,7 @@ class TestAuth extends UnitTestCase {
 					$this->assertTrue($rez_check);//Неудача если $rez_check==false
 				}
 		}
-
+/*
 		function testAuthDelete()
 		{
 			$auth = new Auth();
