@@ -69,7 +69,8 @@ class Auth
 		foreach ($ent as $value) {
 			$id++;
 			if($value["login"]==$login){
-				if(trim($value["password"])==$password){
+				// if(trim($value["password"])==$password){
+				if(trim($value["password"])==md5($password)){
 					self::del($id);
 					$del=true;
 				}

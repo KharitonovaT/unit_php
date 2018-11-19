@@ -98,7 +98,7 @@ class TestAuth extends UnitTestCase {
 					$this->assertTrue($rez_check);//Неудача если $rez_check==false
 				}
 		}
-/*
+
 		function testAuthDelete()
 		{
 			$auth = new Auth();
@@ -130,5 +130,5 @@ class TestAuth extends UnitTestCase {
 					}
 					$this->assertTrue($real_del);//Неудача если $real_del==false
 				}
-		}*/
+		}
 	}
