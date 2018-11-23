@@ -3,10 +3,12 @@ class Auth
 {
 	private static $_entries = array(/*
 		array ('login' => 'Kirk1','password' => 'password'),
-		array ('login' => 'Tedy2','password' => 'password')*/);
-
+	array ('login' => 'Tedy2','password' => 'password')*/);
+	public static $_path="../unit_php/base.txt";
+	// public static $_path="../base.txt";
 	// функция добавляет пару логин пароль соответствующую условиям в файл
-	public function add( $login, $password ) {		
+	public function add( $login, $password ) {
+		$er='';		
 		$ent=self::viewAll();
 		$exist=false;
 		foreach ($ent as $key => $value) {
@@ -27,16 +29,34 @@ class Auth
 						$str = preg_replace('/\s/', '', $login)."#".preg_replace('/\s/', '', md5($password))."\n";
 						// print_r($str."<br>");
 					}
+					else{
+						$er="Некорректный пароль";
+					}
 				}
+				else{
+					$er="Некорректный логин";
+				}
+				
 			}
+			else{
+				$er="Длина логина или пароля некорректна";
+			}
+
+		}
+		else{
+			$er="такой существует";
+		}
+		if($er==''){
+			$er="OK";
 		}	
-		file_put_contents("../base.txt", $str, FILE_APPEND);
+		file_put_contents(self::$_path, $str, FILE_APPEND);
+		return($er);
 
 	}
 
 	// функция возвращает массив пар из файла
 	public function viewAll() {
-		$names=file('../base.txt');
+		$names=file(self::$_path);
 		$_entries=array();
 		foreach($names as $name)
 		{
@@ -55,7 +75,7 @@ class Auth
 			if($value["login"]==$login){
 				// if(trim($value["password"])==$password){//без хэширования пароля
 				if(trim($value["password"])==md5($password)){//с хэшированием пароля
-					$err="Ок";
+					$err="OK";
 				}
 				else{
 					$err="Неверный пароль";
@@ -89,12 +109,12 @@ class Auth
 	public function del($id){
 		if ($id != "") {
 			$id--;
-			$file=file("../base.txt");
+			$file=file(self::$_path);
 
 			for($i=0;$i<sizeof($file);$i++)
 				if($i==$id) unset($file[$i]);
 
-			$fp=fopen("../base.txt","w");
+			$fp=fopen(self::$_path,"w");
 			fputs($fp,implode("",$file));
 			fclose($fp);
 		}
